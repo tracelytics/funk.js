@@ -1,5 +1,15 @@
 funk = window.funk || {};
 
+funk.id = function(x) {
+    return x;
+};
+
+funk.const = function(x) {
+    return function() {
+        return x;
+    };
+};
+
 funk.args = function(as) {
     return Array.prototype.slice.apply(as);
 }
