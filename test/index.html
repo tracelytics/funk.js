@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="qunit.js"></script>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="../funk.js"></script>
+  <script type="text/javascript">
+    function add1(x) {
+        return x + 1;
+    }
+
+    function times2(x) {
+        return 2 * x;
+    }
+
+    function div2(x) {
+        return x / 2;
+    }
+
+    function odd(x) {
+        return x % 2 == 1;
+    }
+
+    function even(x) {
+        return x % 2 == 0;
+    }
+
+    function Test() {
+        this.bump = 10;
+    }
+
+    Test.prototype.addBump  = function(x) {
+        return x + this.bump;
+    };
+
+    module("Funk");
+    test('or', function() {
+      equals(even.or(odd)(0), true, '0 is even or odd');
+      equals(even.or(odd)(1), true, '1 is even or odd');
+    });
+
+    test('and', function() {
+      equals(even.and(odd)(0), false, '0 is not even and odd');
+      equals(even.and(odd)(1), false, '1 is not even and odd');
+    });
+
+    test('compose', function() {
+      equals(add1.compose()(0), 1, 'composing add1 with nothing is add1');
+      equals(add1.compose(add1)(0), 2, 'compoding add1 with itself is add2');
+
+      equals(div2.compose(times2, add1)(0), 1, 'compose in the right order');
+
+      var t = new Test();
+      equals(t.addBump.compose().call(t, 0), t.bump);
+      equals(t.addBump.compose(add1).call(t, 0), t.bump + 1);
+      equals(t.addBump.compose(t.addBump).call(t, 0), 2 * t.bump);
+
+      var m1 = funk.method(t, 'addBump');
+      equals(m1.compose()(1), t.bump + 1);
+      equals(m1.compose(add1)(1), t.bump + 2);
+      equals(m1.compose(m1)(1), 2 * t.bump + 1);
+
+      var m2 = funk.method(t, t.addBump);
+      equals(m2.compose()(2), t.bump + 2);
+      equals(m2.compose(add1)(2), t.bump + 3);
+      equals(m2.compose(m2)(2), 2 * t.bump + 2);
+    });
+  </script>
+</head>
+<body>
+  <h1 id="qunit-header">Funk Tests</h1>
+  <h2 id="qunit-banner"></h2>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+</body>
+</html>
