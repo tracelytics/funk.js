@@ -103,3 +103,12 @@ Function.prototype.curry = function() {
     return funk.curry.apply(null, [this].concat(funk.args(arguments)));
 };
 
+Function.prototype.on = function(f) {
+    var that = this;
+
+    return function() {
+        var args = funk.args(arguments);
+        return that.apply(this, args.map(f));
+    };
+};
+
