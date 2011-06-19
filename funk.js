@@ -14,6 +14,14 @@ funk.args = function(args) {
     return Array.prototype.slice.call(args);
 }
 
+funk.ap = function() {
+    var args = funk.args(arguments);
+
+    return function(f) {
+       return f.apply(this, args);
+    };
+};
+
 // TODO: ECMAScript 5 bind
 
 funk.method = function(obj, m) {

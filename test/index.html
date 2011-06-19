@@ -36,6 +36,14 @@
     };
 
     module("Funk");
+    test('ap', function() {
+        deepEqual([add1, times2].map(funk.ap(0)), [1, 0]);
+        deepEqual([add1, times2].map(funk.ap(2)), [3, 4]);
+
+        var t = new Test();
+        deepEqual([add1, funk.method(t, 'addBump')].map(funk.ap(0)), [1, 10]);
+    });
+
     test('or', function() {
       equals(even.or(odd)(0), true, '0 is even or odd');
       equals(even.or(odd)(1), true, '1 is even or odd');
