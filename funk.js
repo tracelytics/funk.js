@@ -10,8 +10,8 @@ funk.const = function(x) {
     };
 };
 
-funk.args = function(as) {
-    return Array.prototype.slice.apply(as);
+funk.args = function(args) {
+    return Array.prototype.slice.call(args);
 }
 
 // TODO: ECMAScript 5 bind
@@ -105,6 +105,42 @@ Function.prototype.curry = function() {
 
     return function() {
         return that.apply(this, args.concat(funk.args(arguments)));
+    };
+};
+
+Function.prototype.permute = function() {
+    var that = this,
+        perm = funk.args(arguments);
+
+    return function() {
+        var args = funk.args(arguments),
+            last = args[perm[perm.length - 1]],
+            temp;
+
+        for (var i = 0; i < perm.length; i++) {
+            temp = args[perm[i]];
+            args[perm[i]] = last;
+            last = temp;
+        }
+
+        return that.apply(this, args);
+    };
+};
+
+Function.prototype.swap = function(fm, to) {
+    return this.permute(fm, to);
+};
+
+Function.prototype.flip = function() {
+    return this.swap(0, 1);
+};
+
+Function.prototype.reverse = function() {
+    var that = this,
+        args = funk.args(arguments).reverse();
+
+    return function() {
+        return that.apply(this, args);
     };
 };
 

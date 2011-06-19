@@ -71,6 +71,12 @@
     test('curry', function() {
         deepEqual([0, 1, 2, 3].map(Math.pow.curry(2)), [1, 2, 4, 8]);
     });
+
+    test('permute', function() {
+      equals(Math.pow.permute(0, 1)(10, 2), 1024);
+      equals(Math.pow.swap(0, 1)(10, 2), 1024);
+      equals(Math.pow.flip()(10, 2), 1024);
+    });
   </script>
 </head>
 <body>
