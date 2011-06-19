@@ -79,16 +79,6 @@ funk.compose = function() {
     };
 };
 
-funk.curry = function(f) {
-    var args = funk.args(arguments);
-    args.shift();
-
-    return function() {
-        return f.apply(this, args.concat(funk.args(arguments)));
-    };
-};
-
-
 Function.prototype.method = function(obj) {
     return funk.method(obj, this);
 };
@@ -110,7 +100,12 @@ Function.prototype.compose = function() {
 };
 
 Function.prototype.curry = function() {
-    return funk.curry.apply(null, [this].concat(funk.args(arguments)));
+    var that = this,
+        args = funk.args(arguments);
+
+    return function() {
+        return that.apply(this, args.concat(funk.args(arguments)));
+    };
 };
 
 Function.prototype.on = function(f) {
