@@ -38,13 +38,15 @@ funk.and = function() {
     var args = funk.args(arguments);
 
     return function() {
+        var result;
+
         for (var i = 0; i < args.length; i++) {
-            if (!args[i].apply(this, arguments)) {
+            if (!(result = args[i].apply(this, arguments))) {
                 return false;
             }
         }
 
-        return true;
+        return result;
     };
 };
 
@@ -52,9 +54,11 @@ funk.or = function() {
     var args = funk.args(arguments);
 
     return function() {
+        var result;
+
         for (var i = 0; i < args.length; i++) {
-            if (args[i].apply(this, arguments)) {
-                return true;
+            if (result = args[i].apply(this, arguments)) {
+                return result;
             }
         }
 
