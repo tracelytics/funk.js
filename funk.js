@@ -4,7 +4,7 @@ funk.id = function(x) {
     return x;
 };
 
-funk.const = function(x) {
+funk.constant = function(x) {
     return function() {
         return x;
     };
