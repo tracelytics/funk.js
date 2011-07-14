@@ -22,7 +22,16 @@ funk.ap = function() {
     };
 };
 
-// TODO: ECMAScript 5 bind
+funk.bind = function() {
+    var args = funk.args(arguments);
+    var f = args[0];
+    var obj = args[1];
+    var args = args.slice(2);
+
+    return function() {
+        return f.apply(obj, args);
+    }
+}
 
 funk.method = function(obj, m) {
     if (typeof m != 'function') {
@@ -90,6 +99,10 @@ funk.compose = function() {
         return result;
     };
 };
+
+Function.prototype.bind = function() {
+    return funk.bind.apply({}, ([this].concat(funk.args(arguments))));
+}
 
 Function.prototype.method = function(obj) {
     return funk.method(obj, this);
