@@ -74,6 +74,12 @@
       equals(m2.compose()(2), t.bump + 2);
       equals(m2.compose(add1)(2), t.bump + 3);
       equals(m2.compose(m2)(2), 2 * t.bump + 2);
+
+      var i = 1,
+          cb = add1.compose(funk.const(1))
+      i = 10;
+      equals(cb(), 2);
+
     });
 
     test('curry', function() {
