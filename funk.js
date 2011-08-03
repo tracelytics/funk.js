@@ -86,9 +86,24 @@ funk.compose = function() {
 
     return function() {
         var result = topf.apply(this, funk.args(arguments));
-        
+
         for (var i = 0; i < args.length; i++) {
             result = args[i].call(this, result);
+        }
+
+        return result;
+    };
+};
+
+funk.kompose = function() {
+    var args = funk.args(arguments).reverse(),
+        topf = args.shift();
+
+    return function() {
+        var result = topf.apply(this, funk.args(arguments));
+
+        for (var i = 0; i < args.length; i++) {
+            result = args[i].apply(this, result);
         }
 
         return result;
@@ -117,6 +132,10 @@ Function.prototype.seq = function() {
 
 Function.prototype.compose = function() {
     return funk.compose.apply(null, [this].concat(funk.args(arguments)));
+};
+
+Function.prototype.kompose = function() {
+    return funk.kompose.apply(null, [this].concat(funk.args(arguments)));
 };
 
 Function.prototype.curry = function() {
