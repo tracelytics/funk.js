@@ -22,15 +22,10 @@ funk.ap = function() {
     };
 };
 
-funk.bind = function() {
-    var args = funk.args(arguments);
-    var f = args[0];
-    var obj = args[1];
-    var args = args.slice(2);
+funk.bind = function(f, obj) {
+    var args = funk.args(arguments).slice(2);
 
-    return function() {
-        return f.apply(obj, args);
-    }
+    return funk.method(obj, f).curry(args);
 }
 
 funk.method = function(obj, m) {
@@ -101,7 +96,7 @@ funk.compose = function() {
 };
 
 Function.prototype.bind = function() {
-    return funk.bind.apply({}, ([this].concat(funk.args(arguments))));
+    return funk.bind.apply(null, [this].concat(funk.args(arguments)));
 }
 
 Function.prototype.method = function(obj) {
