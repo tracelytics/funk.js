@@ -110,8 +110,10 @@ funk.kompose = function() {
     };
 };
 
-Function.prototype.bind = function() {
-    return funk.bind.apply(null, [this].concat(funk.args(arguments)));
+if (typeof Function.prototype.bind == "undefined") {
+    Function.prototype.bind = function() {
+        return funk.bind.apply(null, [this].concat(funk.args(arguments)));
+    }
 }
 
 Function.prototype.method = function(obj) {
