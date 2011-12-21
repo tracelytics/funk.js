@@ -2,13 +2,13 @@
 
 Putting the [Funk](http://youtu.be/oEk3CFxtLRs) in functional programming.
 
-Funk is a collection of useful combinators for the JavaScript programming language.
+Funk is a collection of useful combinators for the JavaScript programming
+language. It's not a 'framework', it's not a new syntax. It's not even
+well-documented!
+
+But, it is occasionally useful.
 
 ## Quick Preview ##
-
-### Conjunctions ###
-
-
 
 ### Powers of 2 ###
 
